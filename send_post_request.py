@@ -20,4 +20,4 @@ def get_form(url, *data):
 print('# Указанны верные данные:\n', get_form(url, data.data_1, data.data_2))
 print('# Верные данные + доп значения\n', get_form(url, data.data_3))
 print('# Неверные данные с верными типами\n', get_form(url, data.data_4))
-print('# Данные неправильного формата\n', get_form(url, data.data_5))
+print('# Данные неправильного формата и типа\n', get_form(url, data.data_5))
