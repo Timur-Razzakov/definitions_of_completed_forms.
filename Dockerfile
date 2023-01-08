@@ -26,5 +26,4 @@ RUN python -m manage collectstatic -v 3 --no-input
 # loaddata data
 
 CMD python manage.py loaddata /app/db.json
-# Run scripts
-CMD python  send_post_request.py
+
