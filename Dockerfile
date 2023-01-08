@@ -21,5 +21,10 @@ RUN pip install -r requirements.txt
 # Copy all stuff
 COPY . /app
 
-## Run python  manage.py
-#CMD python manage.py runserver
+# Collect static files
+RUN python -m manage collectstatic -v 3 --no-input
+# loaddata data
+
+CMD python manage.py loaddata /app/db.json
+# Run scripts
+CMD python  send_post_request.py

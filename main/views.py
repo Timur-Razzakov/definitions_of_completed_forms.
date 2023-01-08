@@ -1,14 +1,13 @@
-
-from django.shortcuts import render
-from icecream import ic
 from django.http import JsonResponse
-from .forms import My_Form
+from django.shortcuts import render
+
+from .forms import AddForm, Search_Form
 from .models import MyModel
 
 
 def check_form_view(request):
     """Сравниваем приходящие данные с существующей формой """
-    form = My_Form(request.POST or None)
+    form = Search_Form(request.POST or None)
     result = {}
     if form.is_valid():
         get_data = form.cleaned_data
@@ -20,17 +19,18 @@ def check_form_view(request):
         ).values('name')
         for item in my_form:
             result['Form name'] = item['name']
-    else:
-        result['date'] = 'datetime'
-        result['phone_number'] = 'str'
-        result['email'] = 'str'
-        result['text'] = 'str'
-    return JsonResponse(result)
+        if not my_form.exists():
+            result['date'] = 'datetime'
+            result['phone_number'] = 'str'
+            result['email'] = 'str'
+            result['text'] = 'str'
+        return JsonResponse(result)
+    return render(request, 'home.html', {'form': form, 'result': result})
 
 
 def add_form_view(request):
     """Добавляем новые формы """
-    form = My_Form(request.POST or None)
+    form = AddForm(request.POST or None)
     if form.is_valid():
         new_form = form.save()
         data = form.cleaned_data
